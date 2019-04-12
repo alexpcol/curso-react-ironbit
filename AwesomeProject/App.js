@@ -6,31 +6,41 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import Login from './components/login_component'
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, ScrollView, SafeAreaView, FlatList, Image } from 'react-native';
+import Login from './components/login_component';
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  renderItem = ({ item, index }) => {
+    return (
+      <View style={styles.itemList}>
+        <Text style={styles.itemTitle}>
+          {item.message}
+        </Text>
+        {/*requiere = sirve para hacer un import*/}
+        <Image style={styles.itemImage}
+          source={{ uri: item.imagePath }}
+        />
+      </View>
+    )
+  };
   render() {
-
     let message = 'Yeah Yeah';
-
+    const data = [{ message: 'So I heard...', imagePath: 'https://i0.wp.com/www.narcbrain.com/wp-content/uploads/2018/03/somebody-else-the-1975.jpg?resize=400%2C484' }, { message: 'not give you one more time...', imagePath: 'https://67.media.tumblr.com/8640952d146a628ff4b5f4a4b0b2e0e0/tumblr_oessc5xCK51tloukjo1_1280.jpg' }, { message: 'you look so cool...', imagePath: 'https://theweeklyspoon.com/wp-content/uploads/2018/05/Robbers-the-1975-video.jpg' }]
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Hi Ironbit</Text>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-        <Login message={message}/>
-        <Login/>
+        <SafeAreaView>
+
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            style={styles.list}
+            data={data}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => String(index)}>
+          </FlatList>
+        </SafeAreaView>
       </View>
     );
   }
@@ -41,21 +51,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Platform.select ({
-      ios:'powderblue',
-      android:'red'
+    backgroundColor: Platform.select({
+      ios: 'purple',
+      android: 'red'
     }),
     fontSize: 25
   },
-  welcome: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  list: {
+    flex: 1
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  itemList: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
+  itemTitle: {
+    color: 'white',
+    fontSize: 25,
+    justifyContent: 'center',
+    fontWeight: 'bold'
+  },
+  itemImage: {
+    width: 300,
+    height: 300,
+    marginTop: 20,
+    borderRadius: 10
+  }
 });
