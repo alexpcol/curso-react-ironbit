@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image } from 'react-native';
 
 
-function Login(props) {
+function Login2(props) {
     return (
         <View style={styles.completeView}>
             <Text style={styles.title}>
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+export default Login2;
