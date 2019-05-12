@@ -12,7 +12,7 @@ const AppContainer = ({ children,
         return (
             <View style={[{ backgroundColor: containerBackgroundColor, flex: 1 }]}>
                 <StatusBar
-                    backgroundColor="#772ea2"
+                    backgroundColor={containerBackgroundColor}
                     barStyle="light-content"
                 />
                 <SafeAreaView >

@@ -3,36 +3,58 @@ import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { colors } from './config';
 
 import { AppContainer, InputSpotify, Card, CardSection } from './components/common';
-
 const App = () => {
     return (
         <AppContainer
-                showHeader={false}
-                containerBackgroundColor={colors.deepChestnutRed}
-            >
+            showHeader = {false}
+            headerText = "Texto"
+            containerBackgroundColor={colors.purple}
+        >
+            <View>
+                <Text style={styles.titleStyle}>
+                    All i ever wanted was you
+                </Text>
+
                 <View>
-                    <Text style={{ fontSize: 24, color: colors.alabasterWhite}}>
-                        All i ever wanted was you
-                    </Text>
                     <InputSpotify
                         autoCapitalize='none'
                         label='Email'
-                        value='lol'
                         placeholder='user@mail.com'
                     />
-                    <TouchableOpacity style={styles.submitButtonStyle}>
-                        <Text style={{ color: colors.alabasterWhite, textAlign: 'center' }}>Next</Text>
-                    </TouchableOpacity>
+
+                    <InputSpotify
+                        autoCapitalize='none'
+                        label='Password'
+                        placeholder='******'
+                    />
                 </View>
-            </AppContainer>
+
+                <TouchableOpacity style={styles.submitButtonStyle}>
+                    <Text style={{ color: colors.alabasterWhite, textAlign: 'center' }}>Next</Text>
+                </TouchableOpacity>
+            </View>
+
+        </AppContainer>
     );
 };
 
 const styles = StyleSheet.create({
+
+    containerStyle: {
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        backgroundColor: colors.deepChestnutRed
+    },
     submitButtonStyle: {
         backgroundColor: colors.eerieBlack,
         padding: 20,
         borderRadius: 10,
+    },
+    titleStyle:{
+        fontSize: 24,
+        color: colors.alabasterWhite,
+        textAlign: 'center',
+        fontWeight: 'bold',
     }
 });
 
