@@ -1,40 +1,40 @@
 import React from 'react';
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from './config';
 
-import { AppContainer, InputSpotify, Card, CardSection } from './components/common';
+import { AppContainer, InputSpotify, SimpleAppContainer } from './components/common';
 const App = () => {
     return (
-        <AppContainer
-            showHeader = {false}
-            headerText = "Texto"
+        <SimpleAppContainer
             containerBackgroundColor={colors.purple}
         >
-            <View>
-                <Text style={styles.titleStyle}>
-                    All i ever wanted was you
-                </Text>
-
+            <View style={styles.containerStyle}>
                 <View>
-                    <InputSpotify
-                        autoCapitalize='none'
-                        label='Email'
-                        placeholder='user@mail.com'
-                    />
+                    <Text style={styles.titleStyle}>
+                        Log in
+                    </Text>
 
-                    <InputSpotify
-                        autoCapitalize='none'
-                        label='Password'
-                        placeholder='******'
-                    />
+                    <View style={styles.containerFormStyle}>
+                        <InputSpotify
+                            autoCapitalize='none'
+                            label='Email'
+                            placeholder='user@mail.com'
+                        />
+
+                        <InputSpotify
+                            autoCapitalize='none'
+                            label='Password'
+                            placeholder='******'
+                        />
+                    </View>
                 </View>
 
                 <TouchableOpacity style={styles.submitButtonStyle}>
-                    <Text style={{ color: colors.alabasterWhite, textAlign: 'center' }}>Next</Text>
+                    <Text style={{ color: colors.alabasterWhite, textAlign: 'center', fontWeight: 'bold' }}>Login</Text>
                 </TouchableOpacity>
-            </View>
 
-        </AppContainer>
+            </View>
+        </SimpleAppContainer>
     );
 };
 
@@ -42,15 +42,18 @@ const styles = StyleSheet.create({
 
     containerStyle: {
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        backgroundColor: colors.deepChestnutRed
+        justifyContent: 'space-between',
+        flex: 1
+    },
+    containerFormStyle: {
+        marginTop: 50,
     },
     submitButtonStyle: {
         backgroundColor: colors.eerieBlack,
         padding: 20,
         borderRadius: 10,
     },
-    titleStyle:{
+    titleStyle: {
         fontSize: 24,
         color: colors.alabasterWhite,
         textAlign: 'center',

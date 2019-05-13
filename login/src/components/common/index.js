@@ -6,3 +6,4 @@ export * from './Input';
 export * from './Spinner';
 export * from './AppContainer';
 export * from './InputSpotify';
+export * from './SimpleAppContainer';
