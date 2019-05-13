@@ -7,38 +7,32 @@ const AppContainer = ({ children,
     containerBackgroundColor,
     headerBackgroundColor,
     headerText,
-    showHeader=true, }) => {
+    showHeader = true, }) => {
     if (showHeader) {
         return (
-            <View style={[{ backgroundColor: containerBackgroundColor, flex: 1 }]}>
+            <View style={{ backgroundColor: containerBackgroundColor, flex: 1 }}>
                 <StatusBar
-                    backgroundColor={containerBackgroundColor}
+                    backgroundColor={headerBackgroundColor}
                     barStyle="light-content"
                 />
-                <SafeAreaView >
-                    <Header headerText={headerText} headerBackgroundColor={headerBackgroundColor} />
-                    <View style={{ marginHorizontal: 8, marginTop: 8, backgroundColor: containerBackgroundColor }}>
-                        {children}
-                    </View>
-                </SafeAreaView>
-            </View>
-        );
-    }else{
-        return (
-            <View style={[{ backgroundColor: containerBackgroundColor, flex: 1 }]}>
-                <StatusBar
-                    backgroundColor={containerBackgroundColor}
-                    barStyle="light-content"
-                />
-                <SafeAreaView >
-                    <View style={{ marginHorizontal: 8, marginTop: 8, backgroundColor: containerBackgroundColor }}>
-                        {children}
-                    </View>
+                <Header headerText={headerText} headerBackgroundColor={headerBackgroundColor} />
+                <SafeAreaView style={{ marginHorizontal: 8, marginTop: 8, backgroundColor: containerBackgroundColor, flex: 1 }}>
+                    {children}
                 </SafeAreaView>
             </View>
         );
     }
-    
-}
+    return (
+        <View style={{ backgroundColor: containerBackgroundColor, flex: 1 }}>
+            <StatusBar
+                backgroundColor={containerBackgroundColor}
+                barStyle="light-content"
+            />
+            <SafeAreaView style={{ marginHorizontal: 8, marginTop: 8, backgroundColor: containerBackgroundColor, flex: 1 }}>
+                {children}
+            </SafeAreaView>
+        </View>
+    );
+};
 
 export { AppContainer };

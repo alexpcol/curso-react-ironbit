@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors } from './config';
 
-import { AppContainer, InputSpotify, SimpleAppContainer } from './components/common';
+import { AppContainer, InputSpotify } from './components/common';
 const App = () => {
     return (
-        <SimpleAppContainer
+        <AppContainer
             containerBackgroundColor={colors.purple}
         >
             <View style={styles.containerStyle}>
@@ -34,7 +34,7 @@ const App = () => {
                 </TouchableOpacity>
 
             </View>
-        </SimpleAppContainer>
+        </AppContainer>
     );
 };
 
