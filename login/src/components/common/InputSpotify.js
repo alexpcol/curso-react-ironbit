@@ -8,8 +8,9 @@ const InputSpotify = ({ label,
     autoCorrect = false,
     autoCapitalize,
     secureEntry = false,
-    placeholder, }) => {
-    const { inputStyle, labelStyle, containerStyle } = styles;
+    placeholder,
+    errorMessage }) => {
+    const { inputStyle, labelStyle, containerStyle, error } = styles;
     return (
         <View style={containerStyle}>
             <Text style={labelStyle}>{label}</Text>
@@ -22,12 +23,18 @@ const InputSpotify = ({ label,
                 style={inputStyle}
                 placeholder={placeholder}
             />
+            <Text style={error}>{errorMessage}</Text>
         </View>
     );
 };
 const styles = StyleSheet.create( {
     containerStyle: {
         marginBottom: 16,
+    },
+    error: {
+        color: colors.deepChestnutRed,
+        fontWeight: 'bold',
+        fontSize: 20,
     },
     inputStyle: {
         color: colors.eerieBlack,
