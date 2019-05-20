@@ -1,10 +1,18 @@
-import React, {Component} from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
+import React, { Component } from 'react';
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    StyleSheet,
+    AsyncStorage
+} from 'react-native';
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import { colors } from './config';
+import { AppContainer, InputSpotify, Spinner } from './components/common';
+import Home from './screens/Home';
 
-import { AppContainer, InputSpotify, Spinner} from './components/common';
-class App extends Component{
-    state={
+class App extends Component {
+    state = {
         user: '',
         password: '',
         emailError: '',
@@ -16,14 +24,14 @@ class App extends Component{
 
     componentWillMount() {
         AsyncStorage.getItem('accessToken').
-        then(data => {
-            this.setState({
-                isAuthenticated: data != null
-            });
-        })
+            then(data => {
+                this.setState({
+                    isAuthenticated: data != null
+                });
+            })
     }
 
-    renderButton = () =>{
+    renderButton = () => {
         if (this.state.isLoading) {
             return (
                 <Spinner size='small' />
@@ -31,18 +39,13 @@ class App extends Component{
         }
         return (
             <TouchableOpacity style={styles.submitButtonStyle} onPress={this.onSubmit}>
-                        <Text style={{ color: colors.alabasterWhite, textAlign: 'center', fontWeight: 'bold' }}>Login</Text>
+                <Text style={{ color: colors.alabasterWhite, textAlign: 'center', fontWeight: 'bold' }}>Login</Text>
             </TouchableOpacity>
         );
     }
 
     onSubmit = () => {
-        this.setState({
-            emailError: '',
-            passwordError: '',
-            httpError: '',
-        });
-        if (!this.state.user){
+        if (!this.state.user) {
             this.setState({
                 emailError: 'No hay usuario'
             });
@@ -57,49 +60,53 @@ class App extends Component{
         const url = "http://localhost:5000/token"
         const { user, password } = this.state;
         this.setState({
-            isLoading: true
-        })
-        fetch(url,{
-            method:'POST',
+            emailError: '',
+            passwordError: '',
+            httpError: '',
+            isLoading: true,
+        });
+        fetch(url, {
+            method: 'POST',
             body: JSON.stringify({
                 username: user,
                 password: password
             }),
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             }
         }).
-        then(res =>res.json()).
-        then(data => {
-            if (data.error) {
-                this.setState({
-                    httpError: data.error
-                })
-                this.setState({
-                    isLoading:false
-                })
-            } else {
-                AsyncStorage.setItem('acessToken', data.accessToken)
-                .then(() =>{
-                    console.log('Se guardo el token');
+            then(res => res.json()).
+            then(data => {
+                if (data.error) {
+                    this.setState({
+                        httpError: data.error
+                    })
                     this.setState({
                         isLoading: false
                     })
-                }).
-                catch(error => {
-                    console.error('Error:');
-                    this.setState({
-                        isLoading: false
-                    })
-                });
-            }
-        }).
-        catch(error => {
-            console.error('Error: ');
-            this.setState({
-                isLoading: false
-            })
-        });
+                } else {
+                    AsyncStorage.setItem('acessToken', data.accessToken)
+                        .then(() => {
+                            console.log('Se guardo el token');
+                            this.setState({
+                                isLoading: false
+                            })
+                            this.props.navigation.navigate('Home');
+                        }).
+                        catch(error => {
+                            console.error('Error:');
+                            this.setState({
+                                isLoading: false
+                            })
+                        });
+                }
+            }).
+            catch(error => {
+                console.error('Error: ');
+                this.setState({
+                    isLoading: false
+                })
+            });
     }
 
     render() {
@@ -112,23 +119,23 @@ class App extends Component{
                         <Text style={styles.titleStyle}>
                             Log in
                         </Text>
-    
+
                         <View style={styles.containerFormStyle}>
                             <InputSpotify
                                 autoCapitalize='none'
                                 label='Email'
                                 placeholder='user@mail.com'
-                                onChangeText={(user) => this.setState({user})}
+                                onChangeText={(user) => this.setState({ user })}
                                 value={this.state.user}
-                                errorMessage= {this.state.emailError}
+                                errorMessage={this.state.emailError}
                             />
                             <InputSpotify
                                 autoCapitalize='none'
                                 label='Password'
                                 placeholder='******'
                                 value={this.state.password}
-                                onChangeText={(password) => this.setState({password})}
-                                errorMessage= {this.state.passwordError}
+                                onChangeText={(password) => this.setState({ password })}
+                                errorMessage={this.state.passwordError}
                             />
                         </View>
                     </View>
@@ -137,7 +144,7 @@ class App extends Component{
                     <View>
                         {this.renderButton()}
                     </View>
-    
+
                 </View>
             </AppContainer>
         );
@@ -167,4 +174,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default App;
+const AppNavigator = createStackNavigator({
+    App: {
+        screen: App
+    },
+    Home: {
+        screen: Home,
+    }
+}, {
+        // initialRouteName: 'PantallaPrincipal',
+    });
+
+export default createAppContainer(AppNavigator);
