@@ -3,9 +3,9 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet,
-    AsyncStorage
+    StyleSheet
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { colors } from './config';
 import { AppContainer, InputSpotify, Spinner } from './components/common';
@@ -57,7 +57,7 @@ class App extends Component {
             });
             return
         }
-        const url = "http://localhost:5000/token"
+        const url = "http://localhost:3000/token"
         const { user, password } = this.state;
         this.setState({
             emailError: '',
@@ -100,6 +100,7 @@ class App extends Component {
                             })
                         });
                 }
+
             }).
             catch(error => {
                 console.error('Error: ');

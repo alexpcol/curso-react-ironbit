@@ -1,51 +1,61 @@
-import React from 'react';
-import { ScrollView, View, Text, Image } from 'react-native';
+import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 
-class Home extends React.Component {
+const accessTokenDBKey = 'accessToken';
+
+class Home extends Component {
     state = {
         comics: []
     }
 
-    componentDidMount() {
-        const PUBLIC_KEY = 'cb6145334fc2a9ef273d19b9b2f03398'
-        AsyncStorage.getItem('accessToken').then((data) => {
+    componentWillMount() {
+        const PUBLIC_KEY = '45bfb7f3e01d965419e501c56d9b022b';
+
+        AsyncStorage.getItem(accessTokenDBKey).then((data) => {
             if (data) {
                 console.log('has token', data)
-                const url = `https://gateway.marvel.com:443/v1/public/comics?apikey=${PUBLIC_KEY}&hash=${data}&ts=1`
+                const url = `https://gateway.marvel.com:443/v1/public/characters?ts=1&apikey=${PUBLIC_KEY}&hash=${data}`;
                 fetch(url, {
                     method: 'GET',
                 }).then(data => data.json())
+                    .catch(error => {
+                        console.error('Error:');
+
+                    })
                     .then(data => {
-                        console.log(data)
+                        console.log(data);
                         this.setState({
                             comics: data.data.results,
                         })
                     })
             }
         })
-    }
 
+
+
+    }
     render() {
         return (
-            <ScrollView style={{
-                flex: 1,
-                // justifyContent: 'center',
-                // alignItems: 'center'
-            }}>
+            <ScrollView style={styles.container}>
+
                 {this.state.comics.map(comic => (
-                    <View>
+                    <View key={comic.id}>
                         <Image
                             source={{ uri: `${comic.thumbnail.path}.${comic.thumbnail.extension}` }}
-                            source={{ uri: comic.thumbnail.path + '.' + comic.thumbnail.extension }}
-                            style={{ width: 200, height: 200 }}
-                        />
-                        <Text>{comic.title}</Text>
+                            style={{ width: 200, height: 200 }} />
+                        <Text>{comic.name}</Text>
                     </View>
                 ))}
             </ScrollView>
-        )
+        );
     }
 }
 
-export default Home
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    }
+});
+
+export default Home;
